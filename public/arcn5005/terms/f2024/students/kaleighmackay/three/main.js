@@ -9,7 +9,7 @@ const aspect = size.width / size.height;
 const camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
 
 //Sets up the renderer, fetching the canvas of the HTML
-const threeCanvas = document.getElementById("kaleigh-canvas");
+const threeCanvas = document.getElementById('kaleigh-canvas');
 
 const renderer = new THREE.WebGLRenderer({
   canvas: threeCanvas,
@@ -21,17 +21,21 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.body.appendChild(renderer.domElement);
 
 const rgbeLoader = new THREE.RGBELoader();
-rgbeLoader.load('models/court.hdr', (texture) => {
-  texture.mapping = THREE.EquirectangularReflectionMapping;
-  scene.background = texture;
-  scene.environment = texture;
-}, undefined, (error) => {
-  console.error('Error loading the HDRI background:', error);
-});
+rgbeLoader.load(
+  'models/court.hdr',
+  (texture) => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    scene.background = texture;
+    scene.environment = texture;
+  },
+  undefined,
+  (error) => {
+    console.error('Error loading the HDRI background:', error);
+  }
+);
 
 //Creates grids and axes in the scene
 const grid = new THREE.GridHelper(500, 500);
-
 
 const axes = new THREE.AxesHelper();
 axes.material.depthTest = false;
@@ -67,20 +71,16 @@ lightBulb.position.y = 20;
 lightBulb.position.x = -0.85;
 lightBulb.position.z = 0.22;
 
-
 scene.add(floor);
 // scene.add(ceiling);
 scene.add(lightBulb);
-
-
-
 
 const gltfLoader = new THREE.GLTFLoader();
 
 let mesh;
 
 gltfLoader.load(
-  "./models/kaleigh.glb",
+  './models/kaleigh.glb',
   function (gltf) {
     mesh = gltf.scene;
     mesh.scale.x = 3;
@@ -97,10 +97,10 @@ gltfLoader.load(
 
 const fontLoader = new THREE.FontLoader();
 
-function createText(text, elevation = 0, textColor = "0x000000", size = 1) {
+function createText(text, elevation = 0, textColor = '0x000000', size = 1) {
   const textValue = text;
   const textSize = size;
-  fontLoader.load("./fonts/helvetiker_regular.typeface.json", function (font) {
+  fontLoader.load('./fonts/helvetiker_regular.typeface.json', function (font) {
     const textGeo = new THREE.TextGeometry(textValue, {
       font: font,
       size: textSize,
@@ -125,7 +125,7 @@ function createText(text, elevation = 0, textColor = "0x000000", size = 1) {
   });
 }
 
-createText("SPACE JAM", 0.5, "0Xf88158");
+createText('SPACE JAM', 0.5, '0Xf88158');
 // createText("- it's a bird", 3, "0XFF0000");
 // createText("- it's a plane", 2, "0XFF0000");
 // createText("- ", 1, "0XFF0000");
@@ -154,7 +154,6 @@ directionalLight.target.position.set(0, 3, 0);
 scene.add(directionalLight);
 scene.add(directionalLight.target);
 
-
 let lightBulbVelocity = 0.03;
 let rootrotation = 0;
 let rootvel = 0;
@@ -164,7 +163,7 @@ const gravity = 0.0005;
 function animate() {
   requestAnimationFrame(animate);
 
-  if (mesh) mesh.rotation.y += 0.00;
+  if (mesh) mesh.rotation.y += 0.0;
 
   lightBulb.rotation.y += 0.01;
   lightBulb.position.y -= 0.1;
@@ -222,12 +221,10 @@ function animate() {
   camera.rotation.y = increment;
 }
 
-
-
 animate();
 
 //Adjust the viewport to the size of the browser
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
   size.width = window.innerWidth;
   size.height = window.innerHeight;
   camera.aspect = size.width / size.height;
@@ -237,9 +234,9 @@ window.addEventListener("resize", () => {
 
 renderer.domElement.addEventListener('click', () => {
   setTimeout(() => {
-    alert("HEY.");
+    alert('HEY.');
   }, 2000);
-  gsap.to(lightBulb.position, { y: 0, duration: 4, ease: "bounce.out" });
+  gsap.to(lightBulb.position, { y: 0, duration: 4, ease: 'bounce.out' });
 });
 
 window.addEventListener('resize', () => {

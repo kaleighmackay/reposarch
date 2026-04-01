@@ -30,7 +30,8 @@ export function Header({ title }): ReactElement<Props> {
           {title}
         </h1>
         <nav className="w-90px z-50">
-          <CourseSpeedDial />
+          {/* <CourseSpeedDial /> */}
+          <DeblackboxingSpeedDial />
         </nav>
       </header>
     </nav>
@@ -47,7 +48,7 @@ export function HeaderOfSlide({
 }): ReactElement<SlidesProps> {
   const path = usePathname();
 
-  const currentSlide = slides.find((slide: Slide) => path.endsWith(slide.id));
+  const currentSlide: Slide = slides.find((slide) => path.endsWith(slide.id));
 
   const isMobile = useMediaQuery("(max-width: 600px)");
 

@@ -30,6 +30,7 @@ export interface Content {
   url?: string;
   element?: JSX.Element;
   notes?: string;
+  children?: Toc;
 }
 
 export type Toc = Content[];
@@ -50,6 +51,7 @@ export interface Lecture {
   date?: Dayjs;
   toc: Toc;
   recordings?: Recording[];
+  visibleInToc?: boolean;
 }
 
 export type Lectures = Lecture[];

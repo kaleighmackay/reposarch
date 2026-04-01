@@ -1,4 +1,6 @@
-import Link from 'next/link';
+﻿"use client";
+
+import { useState, useEffect } from "react";
 
 interface Props {
   searchParams: {
@@ -8,195 +10,88 @@ interface Props {
 
 export default function Abstract({ searchParams }: Props) {
   const { mode } = searchParams;
+  const [animationStep, setAnimationStep] = useState(0);
+  const maxAnimationStep = 6;
+  const isSequenceActive = animationStep < maxAnimationStep;
+
+  const goToNextStep = () => {
+    setAnimationStep((prev) => (prev < maxAnimationStep ? prev + 1 : prev));
+  };
+
+  const goToPreviousStep = () => {
+    setAnimationStep((prev) => (prev > 0 ? prev - 1 : prev));
+  };
+
+  useEffect(() => {
+    // Auto-advance from the initial highlighted state to the first focused highlight.
+    if (animationStep !== 1) return;
+    const timeoutId = window.setTimeout(() => {
+      setAnimationStep(2);
+    }, 1000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [animationStep]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && animationStep > 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        goToPreviousStep();
+        return;
+      }
+
+      if (!isSequenceActive) return;
+
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "Space" || e.key === "Spacebar") {
+        e.preventDefault();
+        e.stopPropagation();
+        goToNextStep();
+      }
+    };
+    window.addEventListener("keydown", handleKey, true);
+    return () => window.removeEventListener("keydown", handleKey, true);
+  }, [animationStep, isSequenceActive]);
+
+  const abstract =
+    <p className="text-lg ">
+      This dissertation examines <em>deblackboxing</em> as an architect-led practice of toolmaking: the expansion of the architect’s disciplinary scope from operating software to its authorship. While digital tools have transformed architectural education, representation, and production, the field’s increasing dependence on proprietary software and closed file formats has intensified <em>black boxing</em>—systems that can be understood in terms of their inputs and outputs, but whose processes are not accessible to users, shifting agency away from the architect and toward software vendors.
+
+      Against this opacity, the dissertation proposes <em>deblackboxing</em>—defined as the critical act of making digital tools inspectable and modifiable—as a necessary disciplinary intervention. This research argues that this reclamation of agency is best achieved through a synthesis of open-source development and programming pedagogy, treating programming not as a technical utility but as a form of architectural literacy.
+
+      The dissertation investigates this hypothesis through two primary epistemic objects. First, it establishes a pedagogical framework for teaching open-source toolmaking. Results from this study demonstrate that when students are equipped to modify their digital instruments, they transcend the role of passive users to become active toolmakers, thereby regaining critical control over the design process. Second, the research documents the development of <em>Canada’s Digital Twin</em>, a web-based open-source BIM/GIS platform designed to bridge the interoperability gap between building and territorial data.
+
+      The successful deployment of this platform—which has garnered both Canadian and international recognition—serves as empirical validation that open-source architectures can surpass specific limitations of proprietary software. By bridging theory, pedagogy, and applied software research, this dissertation confirms that toolmaking is a fundamental competence for the contemporary architect, one that is essential for engaging with multidisciplinary teams and securing the profession’s agency in a digitized built environment.
+    </p>
+
+  const highlightedAbstract =
+    <p className="text-lg ">
+      This dissertation examines <span className={animationStep >= 2 ? "bg-yellow-200 py-[0.5px] px-1 rounded-md" : ""}><strong><em>deblackboxing</em></strong> as an architect-led practice of <strong>toolmaking</strong></span>: <span className={animationStep >= 3 ? "bg-yellow-200 py-[0.5px] px-1 rounded-md" : "bg-gray-200 py-[0.5px] px-1 rounded-md"}>the expansion of the architect’s disciplinary scope from operating software to its authorship</span>. While digital tools have transformed architectural education, representation, and production, the field’s <span className='bg-red-100 py-[0.5px] px-1 rounded-md'>increasing dependence on proprietary software and closed file formats</span> has intensified <strong><em>black boxing</em></strong>—<span className='bg-gray-200 py-[0.5px] px-1 rounded-md'>systems that can be understood in terms of their inputs and outputs, but whose processes are not accessible to users</span>, shifting agency away from the architect and toward software vendors.
+
+      Against this opacity, the dissertation proposes <span className={animationStep >= 5 ? "bg-yellow-200 py-[0.5px] px-1 rounded-md" : ""}><strong><em>deblackboxing</em></strong>—defined as the critical act of <span className={animationStep >= 5 ? "bg-yellow-200 py-[0.5px] px-1 rounded-md" : "bg-gray-200 py-[0.5px] px-1 rounded-md"}>making digital tools inspectable and modifiable</span></span>—as a necessary disciplinary intervention. This research argues that this reclamation of <span className={animationStep >= 4 ? "bg-yellow-200 py-[0.5px] px-1 rounded-md" : ""}><strong>agency</strong></span> is best achieved through a synthesis of <strong className='text-red-800'>open-source development</strong> and <strong className='text-blue-800'>programming pedagogy</strong>, treating programming not as a technical utility but as a form of architectural literacy.
+
+      The dissertation investigates this hypothesis through <span className='bg-gray-200 py-[0.5px] px-1 rounded-md'>two primary epistemic objects</span>. First, it establishes a pedagogical framework for <span className='bg-blue-100 py-[0.5px] px-1 rounded-md'>teaching open-source toolmaking</span>. Results from this study demonstrate that when students are equipped to modify their digital instruments, they transcend the role of passive users to become active toolmakers, thereby regaining critical control over the design process. Second, the research documents <span className='bg-red-100 py-[0.5px] px-1 rounded-md'>the development of <em>Canada’s Digital Twin</em></span>, a web-based open-source BIM/GIS platform designed to bridge the interoperability gap between building and territorial data.
+
+      The successful deployment of this platform—which has garnered both Canadian and international recognition—serves as empirical validation that <span className='bg-gray-200 py-[0.5px] px-1 rounded-md'>open-source architectures can surpass specific limitations of proprietary software</span>. By bridging theory, <strong className='text-blue-800'>pedagogy</strong>, and <strong className='text-red-800'>applied software research</strong>, this dissertation confirms that <span className={animationStep >= 6 ? "bg-yellow-200 py-[0.5px] px-1 rounded-md" : ""}><strong>toolmaking is a fundamental competence for the contemporary architect</strong></span>, one that is essential for engaging with multidisciplinary teams and securing the <span className={animationStep >= 4 ? "bg-yellow-200 py-[0.5px] px-1 rounded-md" : ""}><strong>profession’s agency</strong></span> in a digitized built environment.
+    </p>
 
   return (
-    <section className="flex-col flex justify-center items-center w-full h-full">
+    <section
+      className="flex-col flex justify-center items-center w-full h-full cursor-text"
+      onClick={(e) => {
+        if (!isSequenceActive) return;
+        e.stopPropagation();
+        goToNextStep();
+      }}
+    >
+      <h1 className="text-3xl mb-6">Deblackboxing the Architect’s Toolbox</h1>
+      <h2 className="text-2xl mb-6">Open-Source Toolmaking for Architects Beyond Proprietary Software and Closed File Formats
+      </h2>
       <section
-        className={`flex flex-col  w-2/3 max-h-[500px] overflow-y-scroll m-6 p-12 bg-opacity-70 ${
-          mode === 'dark' ? 'bg-black' : 'bg-white'
-        } items-baseline text-justify`}
+        className={`flex flex-col  w-2/3 max-h-[600px] m-6 p-12 bg-opacity-70 ${mode === 'dark' ? 'bg-black' : 'bg-white'
+          }  text-justify`}
       >
-        {' '}
-        <h2>
-          Why and how should architects de-blackbox their tools of digital
-          architectural representation
-        </h2>
-        <span className="br-md" />
-        <h3>(CAD, BIM, and GIS software and closed file formats)</h3>
-        <span className="br-lg" />
-        <p className="text-lg ">
-          My research talks about
-          <strong>
-            {' '}
-            the use of computer coding in the field of architectural
-            representation
-          </strong>
-          , and it analyses the different ways in which coding can impact
-          architecture. <span className="br-md" />
-          Since the 1970s, when computers became available to architects, this
-          new human-computer relationship became a revolution for architecture
-          in multiple fundamental aspects, such as representation, education,
-          and practice. Half a century later, in the 2020s computers are not
-          only available, but in most cases, they are indispensable.
-          <span className="br-md" />
-          The research recognizes actors, processes and milestones that have led
-          architects into the scenario that we are in today where a handful of
-          software vendors control the majority of the tools that architects use
-          to design, build and manage buildings. Monopolistic practices such as{' '}
-          <i
-            className="cursor-pointer"
-            title="The cost of switching to a different vendor (training, software, hardware, file formats) is so high that the user is stuck with the original vendor."
-          >
-            vendor-lock-in
-          </i>{' '}
-          have building professionals dependant on opaque proprietary software.{' '}
-          <span className="br-md" />
-          Software are sets of programs that have a specific function.
-          Originally, back in the 50s, software were open systems written in
-          human readable programming language that could be studied and modified
-          by their users, however, software vendors created methods to prevent
-          the free distribution of their products. The term open-software was
-          pioneered first by the{' '}
-          <Link
-            className="italic"
-            href="https://www.fsf.org/"
-            title="The Free Software Foundation is a non-profit organization founded by Richard Stallman on October 4, 1985, to support the free software movement, with the organization's preference for software being distributed under copyleft terms, such as with its own GNU General Public License."
-          >
-            Free Software Foundation (1985){' '}
-          </Link>
-          back in 1985 and popularized by the{' '}
-          <Link
-            className="italic"
-            href="https://opensource.org/"
-            title="The Open Source Initiative (OSI) is a non-profit corporation with global scope formed to educate about and advocate for the benefits of open source and to build bridges among different constituencies in the open source community."
-          >
-            Open Source Initiative
-          </Link>{' '}
-          (1998) to regain the freedom for the user and software respectively.{' '}
-          <span className="br-md" />
-          Many industries, such as GIS, IT, web and game developers, visual and
-          media artist, media, entertainment, among others, have embraced free
-          and open-source software in their workflows. With them, professionals
-          can be as competitive as the ones utilizing proprietary software.
-          However, architects are behind. The bast majority of the practice is
-          done through proprietary software, which hinders collaboration,
-          innovation, and interoperability. Because of these practices, the
-          digital architectural practice has become a{' '}
-          <Link
-            className="italic font-bold"
-            href="https://en.wikipedia.org/wiki/Vendor_lock-in"
-            title="System that can be understood only in terms of its
-            inputs and outputs, but which process is not accessible or even
-            visible to users."
-          >
-            black box
-          </Link>
-          .
-          <span className="br-md" />
-          The term <q>black box</q> to describe opaque computer processes has
-          been used since early 1940s. It has its origins in electronic circuits
-          to describe a system that can be understood only in terms of its
-          inputs and outputs, but which process is not accessible or even
-          visible to users. To <strong className="italic">de-blackbox</strong>{' '}
-          is to understand the process, parts, and connection of the system. The
-          historian Antoine Picon states that
-          <i
-            className="cursor-pointer"
-            title="Terzidis, Algorithmic Architecture Kostas Terzidis,
-            Algorithmic Architecture (Netherlands: Taylor & Francis, 2006), vii.
-            Foreword by Antoine Picon: Algorithmic Architecture or the Computer
-            as a Double?"
-          >
-            {' '}
-            “it has become unavoidable to enter into the black box of
-            programming in order to make a truly creative use of the computer.”
-          </i>
-          <sup>1</sup> <span className="br-md" />
-          There are several digital processes of architectural representation,
-          one of the most popular today is{' '}
-          <Link
-            className="italic font-bold"
-            href="https://en.wikipedia.org/wiki/Building_information_modeling"
-            title="Process involving the generation and management of digital representations of the physical and functional characteristics of buildings. BIM is supported by various tools, technologies and contracts."
-          >
-            Building Information Modeling (BIM)
-          </Link>
-          . In the last two decades, BIM have become not only a possibility but
-          sometimes mandatory by governments in many countries. For this reason,
-          I argue that it is imperative to understand both its potential and
-          limitations.
-          <span className="br-md" />
-          Chuck Eastman, one of the fathers of BIM explains in his BIM Handbook
-          that{' '}
-          <i
-            className="cursor-pointer"
-            title="Chuck Eastman et al., BIM Handbook: A Guide to Building
-            Information Modeling for Owners, Designers, Engineers, Contractors,
-            and Facility Managers. (Germany: Wiley, 2018), 364"
-          >
-            “BIM is not a thing or a type of software but a human activity that
-            ultimately involves broad process changes in construction”
-          </i>
-          <sup>2</sup>. Digital objects are coded to describe and represent
-          real-life building components. This facilitates a dialog with the
-          model that was previously not possible. BIM could be defined as a
-          communication and collaboration tool originally created to connect
-          people, processes, and data. However, that is not exactly the way the
-          Architecture, Engineering, and Construction (AEC) industry is using
-          BIM. The status quo is to work with proprietary solutions and closed
-          file formats. There are a few vendors that control the industry
-          usually, promoting their own proprietary file formats. The issue is
-          that when working with closed formats, the whole process becomes a
-          black box.
-          <span className="br-md" />
-          <strong>Two conditions</strong> must be met before architects can
-          attempt to de-blackbox the digital toolbox. Firstly, architects must
-          have a working knowledge of computer programming. Secondly, the source
-          code—the list of human-readable instructions that define a computer
-          program—of the software that they use must be accessible for
-          modification by the user.
-          <span className="br-md" />
-          This research explores both obstacles—
-          <strong>digital oblivion</strong> and <strong>black-boxes</strong>
-          —that architects must overcome in order to benefit from a fruitful
-          relationship between programming and architecture. .{' '}
-          <span className="br-md" />
-          Coding has the potential to further expand the current limits of our
-          imagination. Computers are a tremendous contribution to our
-          architectural exploration if we continue to explore innovative
-          research that includes human input with computer logic and processing
-          power to arrive at collaborative solutions. <span className="br-md" />
-          In order to overcame these obstacles the epistemic object proposes 4
-          actions:{' '}
-          <Link className="italic font-bold" href="/deblackboxing/learn">
-            1) Learn
-          </Link>
-          ,{' '}
-          <Link className="italic font-bold" href="/deblackboxing/educate">
-            2) Educate
-          </Link>
-          ,{' '}
-          <Link className="italic font-bold" href="/deblackboxing/engage">
-            3) Engage
-          </Link>
-          ,{' '}
-          <Link className="italic font-bold" href="/deblackboxing/build">
-            4) Build
-          </Link>
-          <span className="br-lg" />
-          <small>
-            <sup>1</sup> Terzidis, Algorithmic Architecture Kostas Terzidis,
-            Algorithmic Architecture (Netherlands: Taylor & Francis, 2006), vii.
-            Foreword by Antoine Picon: Algorithmic Architecture or the Computer
-            as a Double?
-          </small>
-          <br />
-          <small>
-            <sup>2</sup> Chuck Eastman et al., BIM Handbook: A Guide to Building
-            Information Modeling for Owners, Designers, Engineers, Contractors,
-            and Facility Managers. (Germany: Wiley, 2018), 364
-          </small>
-        </p>
+        {animationStep >= 1 ? highlightedAbstract : abstract}
         <br />
       </section>
     </section>

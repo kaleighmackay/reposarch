@@ -1,78 +1,123 @@
-interface Props {
-  searchParams: {
-    mode: string;
+﻿"use client";
+import React, { Suspense, useEffect, useState } from "react";
+import Image from "next/image";
+import { useSearchParams } from 'next/navigation';
+
+import WestIcon from "@mui/icons-material/WestRounded";
+import EastIcon from "@mui/icons-material/EastRounded";
+
+import Link from "next/link";
+
+function EpistemicObjectContent() {
+  const openBox = "/images/openBox.png";
+  const cdt = "/images/cdt/canada-logo.png";
+  const reposarch = "/images/reposarch.png";
+  const searchParams = useSearchParams();
+  const animationParam = searchParams.get("animation");
+  const animate = animationParam !== "false";
+  const finalStep = 2;
+
+  const [step, setStep] = useState(animate ? 0 : finalStep); // 0 = center only, 1 = +left, 2 = +right
+
+  useEffect(() => {
+    if (!animate) {
+      setStep(finalStep);
+    }
+  }, [animate]);
+
+  useEffect(() => {
+    if (!animate) {
+      return;
+    }
+
+    const handler = (e: KeyboardEvent) => {
+      if ((e.key === " " || e.key === "ArrowRight") && step < 2) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        setStep((s) => Math.min(s + 1, 2));
+      } else if (e.key === "ArrowLeft" && step > 0) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        setStep((s) => Math.max(s - 1, 0));
+      }
+    };
+    window.addEventListener("keydown", handler, { capture: true });
+    return () => window.removeEventListener("keydown", handler, { capture: true });
+  }, [step, animate]);
+
+  const leftIn = !animate || step >= 1;
+  const rightIn = !animate || step >= 2;
+
+  const leftStyle = {
+    opacity: leftIn ? 1 : 0,
+    transform: animate ? (leftIn ? "translateX(0)" : "translateX(200px)") : "translateX(0)",
+    transition: animate ? "opacity 0.7s ease, transform 0.7s ease" : "none",
   };
+  const rightStyle = {
+    opacity: rightIn ? 1 : 0,
+    transform: animate ? (rightIn ? "translateX(0)" : "translateX(-200px)") : "translateX(0)",
+    transition: animate ? "opacity 0.7s ease, transform 0.7s ease" : "none",
+  };
+
+  return (
+    <section
+      className="flex justify-center items-center w-full h-full overflow-hidden"
+      onClick={() => animate && setStep((s) => Math.min(s + 1, finalStep))}
+    >
+      <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr] gap-x-12 gap-y-6 items-center justify-items-center">
+        {/* Row 1  Titles */}
+        <h1 className="text-center" style={leftStyle}>REPOSARCH</h1>
+        <span />
+        <span />
+        <span />
+        <h1 className="text-center" style={rightStyle}>CDT</h1>
+
+        {/* Row 2  Subtitles */}
+        <div className='flex flex-col gap-3'>
+          <h3 className="text-center" style={leftStyle}>Teaching open-source toolmaking for architects</h3>
+          <h3 className="text-center" style={leftStyle}>(Chapter 2)</h3>
+        </div>
+        <span />
+        <span />
+        <span />
+        <div className='flex flex-col gap-3'>
+          <h3 className="text-center w-96" style={rightStyle}>Developing a BIM/GIS open-source tool</h3>
+          <h3 className="text-center w-96" style={rightStyle}>(Chapter 3)</h3>
+        </div>
+
+        {/* Row 3  Images */}
+        <div style={leftStyle}>
+          <Link href={"/arcn5005/defence-edu/2"} className="inline-block transition-transform duration-200 hover:scale-110" onClick={(e) => e.stopPropagation()}>
+            <Image priority src={reposarch} height={300} width={300} alt="Education" />
+          </Link>
+        </div>
+        <div style={leftStyle}>
+          <WestIcon fontSize="large" />
+        </div>
+        <Image
+          priority
+          src={openBox}
+          height={300}
+          width={300}
+          alt="Epistemic Object"
+        />
+        <div style={rightStyle}>
+          <EastIcon fontSize="large" />
+        </div>
+        <div style={rightStyle}>
+          <Link href={"/arcn5005/defence-dev/2"} className="inline-block transition-transform duration-200 hover:scale-110" onClick={(e) => e.stopPropagation()}>
+            <Image priority src={cdt} height={250} width={250} alt="Canada's Digital Twin" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-export default function EpistemicObject({ searchParams }: Props) {
-  const { mode } = searchParams;
+export default function Home() {
   return (
-    <section className="flex-col flex justify-center items-center w-full h-full">
-      <section
-        className={`flex  w-2/3 max-h-[500px] overflow-y-scroll m-6 p-12 bg-opacity-70 ${
-          mode === "dark" ? "bg-black" : "bg-white"
-        } items-baseline text-justify`}
-      >
-        <ol className="text-lg ">
-          <li>
-            <b>Beatriz Colomina:</b> An Epistemic Object is theory of the
-            extended mind → through tools and making. We don’t just think with
-            our head and body, we think with our world. We don’t get trapped by
-            the limitations of the tools. (Marco Frascari). Enacting mind → the
-            making affect your thinking. Design makes us humans, we make tools,
-            tools make us.
-          </li>
-          <span className="br-md" />
-          <li>
-            <b>Martin Betchold:</b> An Epistemic Object is defined in relation
-            to the research questions process in a plurality of media. A design
-            experiment might be helpful to either understand the problems more
-            deeply or to provide proof of concept for the claim of the thesis.
-          </li>
-          <span className="br-md" />
-          <li>
-            <b>Rebecca Williamson</b>: Theory can be found in the evidence of
-            practice, buildings, drawings, or other manifestations primary
-            sources, graphic qualities of these texts, drawing conventions,
-            direct examination of buildings and urban conditions. Dialogue
-            between the design and research processes and reinforces our
-            connections to practice.
-          </li>
-          <span className="br-md" />
-          <li>
-            <b>Ute Poersche:</b> As architects, we must believe that our
-            thinking is embedded in the objects and spaces we make. Our
-            professional work would be useless otherwise. Objects are much more
-            resistant to be nailed down to one interpretation than a
-            dissertation should ever be. An object, its non-verbal
-            representation in a drawing, model, movie, etc., and its verbal
-            representation can never be the same.
-          </li>
-          <span className="br-md" />
-          <li>
-            <b>Claire Zimmerman:</b> Theory emerges from the cross-pollination
-            of architectural fields and other fields that underpin or shine
-            light on the built environment. Theory is a porous activity that
-            connects fields. Theoretical thinking helps connect architecture to
-            philosophy, to cultural studies, to other kinds of cultural
-            production. Ideas bubble up from architectural work, whether from a
-            building in the world, from drawing and designing, or from writing.
-            Theory production must be politically engaged to be a useful tool in
-            the expansion of intellectual work.
-          </li>
-          <span className="br-md" />
-          <li>
-            <b>Marco Frascari:</b> Construction (the action, making) and
-            construing (the thinking that goes through that making) → Tale the
-            tail detail. The theory has to be Embodied it has to be part of that
-            person. The theory and the practice meet inside the person it is
-            inseparable. Afterthought is the reflecting of what you made and
-            forethought is planning. Afterthought is confused as a survey, but
-            it is also a way of thinking.
-          </li>
-        </ol>
-        <br />
-      </section>
-    </section>
+    <Suspense fallback={null}>
+      <EpistemicObjectContent />
+    </Suspense>
   );
 }

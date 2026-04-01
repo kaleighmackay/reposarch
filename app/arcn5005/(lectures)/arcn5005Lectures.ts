@@ -15,6 +15,9 @@ import { content as week12 } from './week12';
 import { content as week13 } from './week13';
 import { content as final } from './final';
 import { content as maps } from './maps';
+import { content as esp } from './esp';
+import { content as edu } from '../../deblackboxing/defence/edu';
+import { content as dev } from '../../deblackboxing/defence/dev';
 import { startingDate } from '../terms/currentTerm';
 
 const initialDate = dayjs(startingDate); // for Fall 2024
@@ -290,8 +293,8 @@ export const arcn5005Lectures: Lectures = [
       { title: 'JavaScript (js)' },
       { title: 'WebGL - Web based 3D graphics' },
       { title: 'GLTF' },
-      { title: 'Tree.js, intro to ifc.js' },
-      { title: 'Intro to ifc.js' },
+      { title: 'Tree.js' },
+      { title: 'Intro to That Open' },
       { title: '🖥️ LAB 8: Javascript and Three.js, uploading mesh' },
     ],
     recordings: [
@@ -375,16 +378,29 @@ export const arcn5005Lectures: Lectures = [
     toc: [
       {
         title:
-          '🔴 Assignment 2 presentation - 3d model using Blender, a photogrammetry software and Three.js',
+          '🔴 Assignment 2 review - 3d model using Blender, a photogrammetry software and Three.js',
       },
       { title: 'Open Source GIS - QGIS - Guess lecturer: Ken Percy (CIMS)' },
-      { title: 'Q GIS' },
+      { title: "Canada's Digital Twin" },
+      { title: 'QGIS' },
+      { title: 'CloudCompare' },
       { title: '🖥️ LAB 10: Three js continuation' },
     ],
     recordings: [
       {
+        url: 'https://www.youtube.com/embed/G0ZCm_6kYx8?si=8k6WMx86nWd4-Pce',
+        title:
+          "Ken Percy - Open-source GIS and Canada's Digital Twin - Fall 2024",
+        date: dayjs('2023/11/16'),
+      },
+      {
+        url: 'https://www.youtube.com/embed/kTHiMCSAzr8?si=1Z_9jatCa6AR4zxx',
+        title: 'Three.js - Committing to Github and Assignment 2 - Fall 2024',
+        date: dayjs('2023/11/16'),
+      },
+      {
         url: 'https://www.youtube.com/embed/LBPLWOyyLUs?si=smhmUoCtn1Ptq6Kd',
-        title: 'Ken Percy - Open-source GIS',
+        title: 'Ken Percy - Open-source GIS - Fall 2023',
         date: dayjs('2023/11/16'),
       },
     ],
@@ -401,18 +417,29 @@ export const arcn5005Lectures: Lectures = [
       { title: 'Coordination Systems' },
       { title: 'Proprietary web GIS - Cesium and Mapbox' },
       { title: 'Open Source web GIS - Leaflet and Maplibre' },
+      { title: '🗺️ GIS day 🌎' },
       { title: '🖥️ LAB 11: Web based GIS software' },
     ],
     recordings: [
       {
-        url: 'https://www.youtube.com/embed/vSejvs1PBNc?si=qAIK45kWVdSQtW-g',
-        title: 'New calendar and Assignment 2 feedback',
+        url: 'https://www.youtube.com/embed/lFfr5UmHCFE?si=d4DH0oJC--MCQtRC',
+        title: 'OS Maps, GIS and Map renderers - Fall 2024',
+        date: dayjs('2024/11/20'),
+      },
+      {
+        url: 'https://www.youtube.com/embed/SIZWzM5N6T8?si=FjN8uEHo9vLrhSnK&amp;start=2709',
+        title: 'Assignment 3 - Fall 2023',
         date: dayjs('2023/11/23'),
       },
       {
         url: 'https://www.youtube.com/embed/SIZWzM5N6T8?si=kqgrpZZYSGWcNe-m',
-        title: 'Web based mapping and Assignment 3',
+        title: 'OS Maps, GIS and Map renderers  - Fall 2023',
         date: dayjs('2023/11/23'),
+      },
+      {
+        url: 'https://www.youtube.com/embed/nc-7jJRwUP8?si=MSMT1beQ56ThJkxv',
+        title: 'OS Maps, GIS and Map renderers (infrastructure) - Fall 2023',
+        date: dayjs('2023/09/25'),
       },
     ],
   },
@@ -437,6 +464,11 @@ export const arcn5005Lectures: Lectures = [
       },
     ],
     recordings: [
+      {
+        url: 'https://www.youtube.com/embed/b_bWEVienwU?si:eMKgj9UmEMZZcQjC',
+        title: 'Advanced toolbox and GH Pages - Fall 2024',
+        date: dayjs('2024/11/24'),
+      },
       {
         url: 'https://www.youtube.com/embed/kKrYBqN3en8?si=2af8sUvxXNvRK3mt',
         title: 'Advanced toolbox',
@@ -463,20 +495,32 @@ export const arcn5005Lectures: Lectures = [
     ],
   },
   {
+    title: '🏁❓ Optional Final assignment review',
+    id: `final-review`,
+    url: `final-review`,
+    date: initialDate.add(14, 'week'),
+    content: final,
+    toc: [
+      {
+        title:
+          'Optional Final review: We will meet at the Zoom link and if there are questions about the final assignment we can go through them during that time',
+      },
+    ],
+  },
+  {
     title: '🏁 Final Presentation 🏁',
     id: `final`,
     url: `final`,
-    date: initialDate.add(14, 'week'),
+    date: initialDate.add(14, 'week').add(2, 'day'),
     content: final,
     toc: [{ title: '🏁 Final presentations' }],
   },
-  /*
   {
     title: '🗺️ Maps and GIS 🌎',
-    id: `maps`,
-    url: `maps`,
-    date: dayjs('2024-09-25'),
+    id: `week-maps`,
+    url: `week-maps`,
     content: maps,
+    visibleInToc: false,
     toc: [
       { title: 'History of Mapping' },
       { title: 'Map Projections' },
@@ -499,5 +543,57 @@ export const arcn5005Lectures: Lectures = [
         date: dayjs('2023/09/25'),
       },
     ],
-  },*/
+  },
+  {
+    title: '🏛️ BIM-GIS y graficas 3D 🏗️',
+    id: `week-esp`,
+    url: `week-esp`,
+    content: esp,
+    visibleInToc: false,
+    toc: [
+      { title: 'Herramientas digitales para AECO' },
+      { title: 'Procesos de representación: CAD, 3D CAD, BIM' },
+      { title: 'Software propietario o patentado' },
+      { title: 'WebGL - Gráficos 3D basados ​​en la web' },
+      { title: 'Formatos de codigo abierto - GLTF, IFC' },
+      {
+        title:
+          'Librerias de codigo abierto - Tree.js, IFC.js, That Open Engine',
+      },
+      { title: '🖥️ Lab 3: Blender, Bonsaibim, SketchFab, Three.js, That Open' },
+    ],
+  },
+  {
+    title: 'Teaching Open-Source Toolmaking for Architects',
+    id: `defence-edu`,
+    url: `defence-edu`,
+    content: edu,
+    visibleInToc: false,
+    toc: [
+      { title: 'Course Overview & Resources' },
+      { title: 'Web Technologies: HTML, CSS & JavaScript' },
+      { title: '2D Drawing: Raster & Vector (P5.js)' },
+      { title: 'CAD (DXF viewer)' },
+      { title: '3D Visualization (Three.js)' },
+      { title: 'BIM (IFC viewer)' },
+      { title: 'Web Maps & GIS (Cesium, Leaflet, Mapbox, Maplibre)' },
+      { title: 'Student Assignments & GitHub' },
+    ],
+  },
+  {
+    title: 'Developing a BIM/GIS Open-Source Tool',
+    id: `defence-dev`,
+    url: `defence-dev`,
+    content: dev,
+    visibleInToc: false,
+    toc: [
+      { title: 'What is a DT' },
+      { title: 'Why is CDT' },
+      { title: 'What is CDT' },
+      { title: 'CDT Diagram' },
+      { title: 'CDT Platform Architecture' },
+      { title: 'Demo' },
+      { title: 'Use Cases' },
+    ],
+  },
 ];

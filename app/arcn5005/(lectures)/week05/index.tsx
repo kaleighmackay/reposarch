@@ -1,6 +1,6 @@
 import { Toc } from '@/app/types/types';
 
-import Image from '@/components/Common/Image';
+import Image from '@/components/Common/SlideImage';
 import Video from '@/components/Common/Video';
 import Quote from '@/components/Common/Quote';
 import EmojiTitle from '@/components/Common/EmojiTitle';
@@ -576,7 +576,7 @@ export const content: Toc = [
         <br />
         <iframe
           className="w-11/12 h-full border-solid border-2 border-dark p-5 rounded-lg bg-light shadow-md mx-10"
-          src="/arcn5005/terms/f2024/students/nicolasarellanorisop/code-editors/html.html"
+          src="/utils/code-editors/html.html"
         />
       </>
     ),
